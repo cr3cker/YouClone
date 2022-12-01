@@ -17,7 +17,20 @@
             <source src="{% url 'stream' video.id %}" type="video/mp4"/>
             <source src="{% url 'stream' video.id %}" type="video/webm"/>
           </video>
-          <p>Views: {{ video.views }}</p>
+          <div class="video-views">
+            <span class="video-views__text">Views: </span>
+            <span class="video-views__count">{{ video.views }}</span>
+          </div>
+          <!-- Add like and dislike buttons with beautiful icons -->
+          <div class="video-likes">
+            <div class="video-likes__like">
+              <i class="fa fa-thumbs-up"></i>
+              <span class="video-likes__count">{{ video.likes_percentage }}%</span>
+            </div>
+            <div class="video-likes__dislike">
+              <i class="fa fa-thumbs-down"></i>
+              <span class="video-likes__count">{{ video.dislikes_percentage }}%</span>
+            </div>
         </div>
       </div>
     </div>

@@ -2,3 +2,5 @@ media
 .DS_Store
 __pycache__
 *.pyc
+.vscode
+.pre-commit-config.yaml

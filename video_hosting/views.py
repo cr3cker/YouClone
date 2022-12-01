@@ -22,4 +22,3 @@ def get_streaming_video(request, pk: int):
     response['Cache-Control'] = 'no-cache'
     response['Content-Range'] = content_range
     return response
-
