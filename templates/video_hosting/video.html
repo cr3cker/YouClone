@@ -17,6 +17,7 @@
             <source src="{% url 'stream' video.id %}" type="video/mp4"/>
             <source src="{% url 'stream' video.id %}" type="video/webm"/>
           </video>
+          <p>Views: {{ video.views }}</p>
         </div>
       </div>
     </div>
