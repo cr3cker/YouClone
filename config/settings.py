@@ -24,8 +24,9 @@ SECRET_KEY = 'django-insecure-bf5g9=54fej+=3^rh0&eany+jpx-l&4svihm+br9emx57!jx!z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ['https://b8cb-195-191-158-222.ngrok.io']
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['*']
+# CSRF_TRUSTED_ORIGINS = ['https://b8cb-195-191-158-222.ngrok.io']
 
 
 # Application definition
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'video_hosting.apps.VideoHostingConfig',
+    'rest_framework_simplejwt',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +70,12 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
