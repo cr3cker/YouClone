@@ -33,7 +33,7 @@ def register_user(request):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}!')
-            return redirect('login')
+            return redirect('home')
     else:
         form = UserCreationForm()
     return render(request, 'video_hosting/register.html', {'form': form})
