@@ -97,7 +97,7 @@ class UserViewTest(TestCase):
     def test_view_uses_correct_template(self):
         response = self.client.get(reverse('register'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'video_hosting/register.html')
+        self.assertTemplateUsed(response, 'registration/register.html')
 
 
 class UserFormTest(TestCase):

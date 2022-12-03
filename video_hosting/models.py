@@ -23,3 +23,18 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    text = models.TextField(max_length=150)
+
+    class Meta:
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+    def __str__(self):
+        return self.text
+
+
+

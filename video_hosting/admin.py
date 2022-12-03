@@ -1,7 +1,13 @@
 from django.contrib import admin
-from .models import Video
+from .models import Video, Comment
 
 
+class CommentInline(admin.TabularInline):
+    model = Comment
+    extra = 0
+
+
+@admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Title and Description', {
@@ -12,6 +18,7 @@ class VideoAdmin(admin.ModelAdmin):
             'fields': ('image', 'file'),
         }),
     ]
+    inlines = [CommentInline]
     date_hierarchy = 'create_at'
     empty_value_display = '-empty-'
     list_display = ('title', 'file', 'create_at')
@@ -19,4 +26,3 @@ class VideoAdmin(admin.ModelAdmin):
     search_fields = ('title', 'file', 'image', 'create_at')
 
 
-admin.site.register(Video, VideoAdmin)
