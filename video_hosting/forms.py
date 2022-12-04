@@ -34,3 +34,19 @@ class RegisrationForm(forms.Form):
         password = self.cleaned_data.get('password1')
         user = User.objects.create_user(username=username, email=email, password=password)
         return user
+
+
+class UserLoginForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+        if not User.objects.filter(username=username).exists():
+            raise forms.ValidationError('User with this username does not exist')
+        user = User.objects.get(username=username)
+        if not user.check_password(password):
+            raise forms.ValidationError('Password is incorrect')
+        return cleaned_data

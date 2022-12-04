@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: vladstar1606@mail.ru
+Date: Sun, 04 Dec 2022 14:46:01 -0000
+Message-ID: <167016516127.47322.2946261781479714304@p0w3rfu1.local>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/accounts/reset/MQ/bfwx0p-f9575746df4657821524f7bd433e9b70/
+
+Your username, in case you’ve forgotten: Cr3cker
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------
