@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Comment
 
 
 class RegisrationForm(forms.Form):
@@ -50,3 +51,19 @@ class UserLoginForm(forms.Form):
         if not user.check_password(password):
             raise forms.ValidationError('Password is incorrect')
         return cleaned_data
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+
+    def clean_text(self):
+        text = self.cleaned_data.get('text')
+        if len(text) < 5:
+            raise forms.ValidationError('Comment is too short')
+        return text
+
+
+
+

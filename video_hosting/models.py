@@ -26,15 +26,16 @@ class Video(models.Model):
 
 
 class Comment(models.Model):
-    video = models.ForeignKey(Video, on_delete=models.CASCADE)
-    text = models.TextField(max_length=150)
+    text = models.TextField(max_length=300)
+    created_on = models.DateTimeField(auto_now_add=True)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='comments')
 
     class Meta:
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
+        ordering = ['-created_on']
 
     def __str__(self):
         return self.text
-
 
 

@@ -2,9 +2,12 @@ from django.contrib import admin
 from .models import Video, Comment
 
 
-class CommentInline(admin.TabularInline):
-    model = Comment
-    extra = 0
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('text', 'created_on', 'video')
+    list_filter = ('created_on',)
+    search_fields = ('text', 'video__title')
+    date_hierarchy = 'created_on'
 
 
 @admin.register(Video)
@@ -18,11 +21,10 @@ class VideoAdmin(admin.ModelAdmin):
             'fields': ('image', 'file'),
         }),
     ]
-    inlines = [CommentInline]
     date_hierarchy = 'create_at'
     empty_value_display = '-empty-'
     list_display = ('title', 'file', 'create_at')
-    list_filter = ['create_at']
+    list_filter = ('create_at',)
     search_fields = ('title', 'file', 'image', 'create_at')
 
 

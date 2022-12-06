@@ -2,8 +2,9 @@ from django.http import StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Video
 from .services import open_file
-from .forms import RegisrationForm
+from .forms import RegisrationForm, CommentForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 def get_list_video(request):
@@ -46,3 +47,14 @@ def register(request):
         form = RegisrationForm()
     return render(request, 'registration/register.html', {'form': form})
 
+
+def post_comment(request, pk: int):
+    _video = get_object_or_404(Video, id=pk)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            _video.comments.create(text=form.cleaned_data['text'], video=_video)
+            return redirect('video', pk=pk)
+    else:
+        form = CommentForm()
+    return render(request, 'video_hosting/video.html', {'video': _video, 'form': form})
