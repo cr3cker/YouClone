@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Video
+from .models import Video, Comment
 from django.urls import reverse
 from .forms import RegisrationForm, UserLoginForm
 
@@ -217,6 +217,12 @@ class PasswordResetTest(TestCase):
         self.assertContains(response, "We've emailed you instructions for setting your password. You should receive the email shortly!")
 
 
+class PasswordResetConfirmTest(TestCase):
+    pass
+
+
+class CommentModelTest(TestCase):
+    pass
 
 
 

@@ -4,3 +4,4 @@ __pycache__
 *.pyc
 .vscode
 .pre-commit-config.yaml
+sent_emails
