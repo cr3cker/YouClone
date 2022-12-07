@@ -1,7 +1,7 @@
 from django.test import TestCase
 from .models import Video, Comment
 from django.urls import reverse
-from .forms import RegisrationForm, UserLoginForm
+from .forms import RegisrationForm, UserLoginForm, CommentForm
 
 
 class VideoModelTest(TestCase):
@@ -217,12 +217,70 @@ class PasswordResetTest(TestCase):
         self.assertContains(response, "We've emailed you instructions for setting your password. You should receive the email shortly!")
 
 
-class PasswordResetConfirmTest(TestCase):
-    pass
-
-
 class CommentModelTest(TestCase):
-    pass
+    """
+    Tests for Comment model
+    """
+    def test_comment(self):
+        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
+        form = RegisrationForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        form.save()
+        form_data = {'username': 'test', 'password': 'testpassword'}
+        form = UserLoginForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        response = self.client.post('/accounts/login/', form_data)
+        self.assertEqual(response.status_code, 302)
+        video = Video.objects.create(
+            title='Test video',
+            description='Test video description',
+            image='media/image/tWbfk65PEbA.jpg',
+            file='media/video/360.mp4',
+        )
+        comment = Comment.objects.create(
+            video=video,
+            text='Test comment',
+        )
+        self.assertEqual(comment.text, 'Test comment')
+        self.assertEqual(comment.video, video)
+
+
+class CommentFormTest(TestCase):
+    """
+    Tests for Comment form
+    """
+    def test_comment_form(self):
+        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
+        form = RegisrationForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        form.save()
+        form_data = {'username': 'test', 'password': 'testpassword'}
+        form = UserLoginForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        response = self.client.post('/accounts/login/', form_data)
+        self.assertEqual(response.status_code, 302)
+        form_data = {'text': 'Test comment'}
+        form = CommentForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data['text'], 'Test comment')
+
+    def test_comment_form_invalid(self):
+        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
+        form = RegisrationForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        form.save()
+        form_data = {'username': 'test', 'password': 'testpassword'}
+        form = UserLoginForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        response = self.client.post('/accounts/login/', form_data)
+        self.assertEqual(response.status_code, 302)
+        form_data = {'text': ''}
+        form = CommentForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, {'text': ['This field is required.']})
+
+
+
 
 
 
