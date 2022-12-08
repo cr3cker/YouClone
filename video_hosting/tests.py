@@ -249,3 +249,14 @@ class CommentFormTest(TestCase):
         form = CommentForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {'text': ['This field is required.']})
+
+    def test_comment_form_invalid_length(self):
+        valid_registration()[1].save()
+        form_data = {'username': 'test', 'password': 'testpassword'}
+        form = UserLoginForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        response = self.client.post('/accounts/login/', form_data)
+        self.assertEqual(response.status_code, 302)
+        form_data = {'text': 'a' * 1001}
+        form = CommentForm(data=form_data)
+        self.assertFalse(form.is_valid())
