@@ -78,15 +78,20 @@ class VideoViewTest(TestCase):
         self.assertTemplateUsed(response, 'video_hosting/home.html')    
 
 
+def valid_registration():
+    form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
+    form = RegisrationForm(data=form_data)
+    return form.is_valid(), form
+
+
 class RegistrationFormTest(TestCase):
     """
     Tests for Registration form
     """
     
     def test_registration_form(self):
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
+        register = valid_registration()
+        self.assertTrue(register)
 
     def test_registration_form_invalid_email(self):
         form_data = {'username': 'test', 'email': 'test', 'password1': 'testpassword', 'password2': 'testpassword'}
@@ -99,20 +104,13 @@ class RegistrationFormTest(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_registration_form_invalid_username(self):
-        # Check if username is already taken
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         form_data = {'username': 'test', 'email': 'test@lol.com', 'password1': 'testpassword', 'password2': 'testpassword'}
         form = RegisrationForm(data=form_data)
         self.assertFalse(form.is_valid())
 
     def test_registration_form_invalid_email(self):
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         form_data = {'username': 'test1', 'email': 'test@example', 'password1': 'testpassword', 'password2': 'testpassword'}
         form = RegisrationForm(data=form_data)
         self.assertFalse(form.is_valid())
@@ -124,28 +122,19 @@ class UserLoginTest(TestCase):
     """
     
     def test_login(self):
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         form_data = {'username': 'test', 'password': 'testpassword'}
         form = UserLoginForm(data=form_data)
         self.assertTrue(form.is_valid())
 
     def test_login_invalid_username(self):
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         form_data = {'username': 'test1', 'password': 'testpassword'}
         form = UserLoginForm(data=form_data)
         self.assertFalse(form.is_valid())
 
     def test_login_invalid_password(self):
-        form_data = form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         form_data = {'username': 'test', 'password': 'testpassword1'}
         form = UserLoginForm(data=form_data)
         self.assertFalse(form.is_valid())
@@ -157,10 +146,7 @@ class UserTokenTest(TestCase):
     """
     
     def test_token_obtain(self):
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         response = self.client.post('/api/token/', {'username': 'test', 'password': 'testpassword'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'access')
@@ -180,10 +166,7 @@ class UserLogoutTest(TestCase):
     """
     
     def test_logout(self):
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         form_data = {'username': 'test', 'password': 'testpassword'}
         form = UserLoginForm(data=form_data)
         self.assertTrue(form.is_valid())
@@ -202,10 +185,7 @@ class PasswordResetTest(TestCase):
     Tests for Password reset
     """
     def test_password_reset(self):
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         form_data = {'username': 'test', 'password': 'testpassword'}
         form = UserLoginForm(data=form_data)
         self.assertTrue(form.is_valid())
@@ -222,10 +202,7 @@ class CommentModelTest(TestCase):
     Tests for Comment model
     """
     def test_comment(self):
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         form_data = {'username': 'test', 'password': 'testpassword'}
         form = UserLoginForm(data=form_data)
         self.assertTrue(form.is_valid())
@@ -250,10 +227,7 @@ class CommentFormTest(TestCase):
     Tests for Comment form
     """
     def test_comment_form(self):
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         form_data = {'username': 'test', 'password': 'testpassword'}
         form = UserLoginForm(data=form_data)
         self.assertTrue(form.is_valid())
@@ -265,10 +239,7 @@ class CommentFormTest(TestCase):
         self.assertEqual(form.cleaned_data['text'], 'Test comment')
 
     def test_comment_form_invalid(self):
-        form_data = {'username': 'test', 'email': 'test@example.com', 'password1': 'testpassword', 'password2': 'testpassword'}
-        form = RegisrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
-        form.save()
+        valid_registration()[1].save()
         form_data = {'username': 'test', 'password': 'testpassword'}
         form = UserLoginForm(data=form_data)
         self.assertTrue(form.is_valid())
@@ -278,9 +249,3 @@ class CommentFormTest(TestCase):
         form = CommentForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {'text': ['This field is required.']})
-
-
-
-
-
-
