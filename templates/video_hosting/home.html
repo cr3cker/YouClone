@@ -1,30 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="main-posts">
-  <div class="container">
-    <div class="row">
-      <div class="blog-masonry masonry-true">
-        {% for video in video_list %}
-          <div class="post-masonry col-md-4 col-sm-6">
-            <div class="post-thumb">
-              <img src="{{ video.image.url }}" alt="">
-              <div class="title-over">
-                <h4>{{ video.title }}</h4>
-              </div>
-              <div class="post-hover text-center">
-                <div class="inside">
-                  <i class="fa fa-plus"></i>
-                  <span class="date">{{ video.create_at }}</span>
-                  <h4><a href="{% url 'video' video.id %}">{{ video.title }}</a></h4>
-                  <p>{{ video.description|slice:":100" }}</p>
-                </div>
-              </div>
+    <div class="container">
+        <div class="row">
+          {% for video in video_list %} 
+            <div class="col-4">
+                <a href="{% url 'video' video.id %}"><img width="300" height="200" src="{{ video.image.url }}" alt=""></a>
+                <p><bold><a href="{% url 'video' video.id %}">{{ video.title }}</a></bold></p>
+                <p>Author: {{ video.author }}</p>
+                <p>Views: {{ video.views }}</p>
+                <p>Post Date: {{ video.create_at }}</p>
             </div>
-          </div> <!-- /.post-masonry -->
-        {% endfor %}
-      </div>
+          {% endfor %}
+        </div>
     </div>
-  </div>
-</div>
 {% endblock content %}

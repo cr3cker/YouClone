@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% block content %}
   <div class="main-posts">
     <div class="container">
@@ -18,16 +19,23 @@
           <div class="video-views">
             <span class="video-views__text">Views: </span>
             <span class="video-views__count">{{ video.views }}</span>
+            <span class="likes video-views__text">Likes: </span>
+            <span class="likes video-views__count">{{ video.total_likes }}</span>
+            <span class="dislikes video-views__text">Dislikes: </span>
+            <span class="dislikes video-views__count">{{ video.total_dislikes }}</span>
           </div>
-          <div class="video-likes">
-            <div class="video-likes__like">
-              <i class="fa fa-thumbs-up"></i>
-              <span class="video-likes__count">{{ video.likes_percentage }}%</span>
-            </div>
-            <div class="video-likes__dislike">
-              <i class="fa fa-thumbs-down"></i>
-              <span class="video-likes__count">{{ video.dislikes_percentage }}%</span>
-            </div>
+          {% if user.is_authenticated %} 
+          <form action="{% url 'like_video' video.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="video_id" value="{{ video.id }}" class="btn btn-pramary btn-sm">&#128077;</button> 
+          </form>
+          <form action="{% url 'dislike_video' video.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="video_id" value="{{ video.id }}" class="btn btn-pramary btn-sm">&#128078;</button> 
+          </form>
+          {% else %}
+            <p>You should log in to like and dislike video</p>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -57,9 +65,27 @@
       </div>
     </div>
   {% endif %}
-{% endblock content %}
+  <!-- Show comments and separate different comments with border -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="comments">
+          {% for comment in comments %}
+            <div class="comment">
+              <div class="comment__author">
+                <span class="comment__author-name">{{ comment.author }}</span>
+                <span class="comment__author-date">{{ comment.created_on }}</span>
+              </div>
+              <div class="comment__text">
+                {{ comment.text }}
+              </div>
+            </div>
+            <hr>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
 
-{% block user %}
 {% if user.is_authenticated %}
   <p><a href="{% url 'logout' %}">Log Out</a></p>
   <p><a href="{% url 'password_reset' %}">Reset Password</a></p>
@@ -67,6 +93,6 @@
   <a href="{% url 'login' %}">Log In</a>
   <a href="{% url 'register' %}">Register</a>
 {% endif %}
-{% endblock user %}
+{% endblock content %}
 
 

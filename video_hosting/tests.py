@@ -260,3 +260,5 @@ class CommentFormTest(TestCase):
         form_data = {'text': 'a' * 1001}
         form = CommentForm(data=form_data)
         self.assertFalse(form.is_valid())
+
+

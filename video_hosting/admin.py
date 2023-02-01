@@ -20,6 +20,12 @@ class VideoAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
             'fields': ('image', 'file'),
         }),
+        ('Author', {
+            'fields': ['author'],
+        }),
+        ('Views and Likes', {
+            'fields': ('views', 'likes')
+        }),
     ]
     date_hierarchy = 'create_at'
     empty_value_display = '-empty-'
