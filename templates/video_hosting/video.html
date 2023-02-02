@@ -65,7 +65,6 @@
       </div>
     </div>
   {% endif %}
-  <!-- Show comments and separate different comments with border -->
   <div class="container">
     <div class="row">
       <div class="col-md-12 col-sm-12">
@@ -88,7 +87,6 @@
 
 {% if user.is_authenticated %}
   <p><a href="{% url 'logout' %}">Log Out</a></p>
-  <p><a href="{% url 'password_reset' %}">Reset Password</a></p>
 {% else %}
   <a href="{% url 'login' %}">Log In</a>
   <a href="{% url 'register' %}">Register</a>

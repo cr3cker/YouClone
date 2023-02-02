@@ -1,11 +1,22 @@
-from django.http import StreamingHttpResponse, HttpResponseRedirect
+from django.http import StreamingHttpResponse, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.utils.translation import ugettext as _
+
 from .models import Video
 from .services import open_file
 from .forms import RegisrationForm, CommentForm
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+
+
+def set_language(request):
+    # Use get method to get the language code from the request
+    language = request.GET.get('language')
+    # Set the language in the session
+    # request.session['django_language'] = language
+    print(language)
+    return HttpResponseRedirect(reverse('home'))
 
 
 def get_list_video(request):

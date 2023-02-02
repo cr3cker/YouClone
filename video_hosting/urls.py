@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('<int:pk>/post_comment/', views.post_comment, name='post_comment'),
+    path('language/', views.set_language, name='language'),
     path('search/', views.search_results, name='search'),
     path('<int:pk>/like/', views.like_video, name='like_video'),
     path('<int:pk>/dislike/', views.dislike_video, name='dislike_video'),
