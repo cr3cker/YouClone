@@ -1,1 +1,1 @@
-# Site for adults 18+
+# Youtube clone on Django
